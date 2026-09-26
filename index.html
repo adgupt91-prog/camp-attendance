@@ -13,7 +13,7 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
   header{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;padding:20px 16px 22px}
-  header .wrap{max-width:860px;margin:0 auto}
+  header .wrap{max-width:860px;margin:0 auto;position:relative}
   header small{opacity:.8;letter-spacing:.06em;text-transform:uppercase;font-size:12px}
   header h1{margin:4px 0 2px;font-size:22px;line-height:1.25}
   header p{margin:0;opacity:.85;font-size:14px}
@@ -24,17 +24,24 @@
   label.f{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
   select,input[type=date]{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
   select:focus,input:focus{outline:2px solid #9bb8e0;outline-offset:1px}
-  .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:4px 0 12px}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:4px 0 4px}
   .toolbar .count{font-size:14px;color:var(--muted)}
+  .rule{font-size:12px;color:var(--muted);margin:0 0 8px}
   .btn-sm{font:inherit;font-size:13px;padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
   .btn-sm:hover{background:#f6f8fb}
-  .loc{margin:18px 0 8px;font-size:13px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.03em}
-  .loc span{display:block;font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;font-size:12px;margin-top:2px}
+  .loc{margin:20px 0 10px;padding:10px 12px;background:#eef3fa;border-radius:10px;border-left:4px solid var(--brand)}
+  .loc .name{font-size:14px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.02em}
+  .loc .off{font-size:13px;color:var(--ink);margin-top:4px}
+  .loc .off b{font-weight:600}
+  .loc .off a{color:var(--brand);text-decoration:none;white-space:nowrap}
+  .loc .shared{font-size:12px;color:var(--muted);margin-top:2px}
   .row{display:grid;grid-template-columns:64px 1fr auto auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:8px;transition:border-color .15s,background .15s}
   .row.missing{border-color:var(--bad);background:var(--bad-bg)}
   .row.is-present{border-color:#b8dfc9}
   .row.is-absent{border-color:#f3c0ba}
   @media (max-width:640px){.row{grid-template-columns:56px 1fr;}.row .seg,.row .photo{grid-column:1 / -1}}
+  .row .rowerr{grid-column:1 / -1;display:none;color:var(--bad);font-size:13px;font-weight:600}
+  .row .rowerr.show{display:block}
   .ps{font-weight:800;font-size:15px;text-align:center;background:#eef3fa;color:var(--brand);border-radius:10px;padding:10px 4px}
   .ps small{display:block;font-size:10px;font-weight:600;opacity:.7;letter-spacing:.05em}
   .blo{font-size:14px;font-weight:600;line-height:1.3}
@@ -51,6 +58,7 @@
   .photo input{display:none}
   .photo .pick{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:9px 12px;border:1px dashed #9aa6b8;border-radius:10px;cursor:pointer;color:var(--ink);background:#fafbfd;white-space:nowrap}
   .photo .pick.has{border-style:solid;border-color:#b8dfc9;background:var(--ok-bg);color:var(--ok)}
+  .photo .pick.need{border-color:var(--bad);color:var(--bad);background:#fff}
   .photo img{width:42px;height:42px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
   .photo .x{border:0;background:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px}
   .empty{text-align:center;color:var(--muted);padding:28px 8px;font-size:14px}
@@ -63,20 +71,80 @@
   .msg{border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:16px;display:none}
   .msg.show{display:block}
   .msg.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #b8dfc9}
-  .msg.err{background:var(--bad-bg);color:var(--bad);border:1px solid #f3c0ba}
+  .msg.err{background:var(--bad-bg);color:var(--bad);border:1px solid #f3c0ba;font-weight:600}
   .msg.info{background:var(--warn-bg);color:#8a4b00;border:1px solid #f5d7a1}
+  /* ---- admin ---- */
+  #adminView .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+  #adminView label.f{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+  #adminView input,#adminView select{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  #adminView input:focus,#adminView select:focus{outline:2px solid #9bb8e0;outline-offset:1px}
+  #adminView .btn{font:inherit;font-weight:700;font-size:15px;padding:11px 20px;border:0;border-radius:10px;background:var(--brand);color:#fff;cursor:pointer}
+  #adminView .btn:disabled{opacity:.6;cursor:wait}
+  #adminView .btn-sm{font:inherit;font-size:13px;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;white-space:nowrap}
+  #adminView .btn-sm:hover{background:#f6f8fb}
+  #adminView #login{max-width:380px;margin:40px auto}
+  #adminView #login h2{margin:0 0 14px;font-size:18px}
+  #adminView #login .g{display:grid;gap:12px}
+  #adminView .err{color:var(--bad);font-size:14px;font-weight:600;min-height:1em}
+  #adminView .controls{display:grid;grid-template-columns:200px 1fr auto;gap:12px;align-items:end}
+  #adminView .controls .acts{display:flex;gap:8px;flex-wrap:wrap}
+  @media (max-width:720px){#adminView .controls{grid-template-columns:1fr}}
+  #adminView .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+  @media (max-width:720px){#adminView .kpis{grid-template-columns:repeat(2,1fr)}}
+  #adminView .kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  #adminView .kpi .v{font-size:24px;font-weight:800;line-height:1.1}
+  #adminView .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+  #adminView .kpi.p .v{color:var(--ok)} #adminView .kpi.a .v{color:var(--bad)} #adminView .kpi.n .v{color:var(--pend)}
+  #adminView h3{margin:0 0 10px;font-size:16px}
+  #adminView .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #adminView table{width:100%;border-collapse:collapse;font-size:14px}
+  #adminView th,#adminView td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  #adminView th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;background:#f8fafc;white-space:nowrap}
+  #adminView td.num,#adminView th.num{text-align:right;font-variant-numeric:tabular-nums}
+  #adminView tr.click{cursor:pointer} #adminView tr.click:hover td{background:#f6f9fd}
+  #adminView .badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  #adminView .b-p{background:var(--ok-bg);color:var(--ok)} #adminView .b-a{background:var(--bad-bg);color:var(--bad)} #adminView .b-n{background:var(--pend-bg);color:var(--pend)}
+  #adminView .sup-block{margin-bottom:22px}
+  #adminView .sup-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;border-bottom:2px solid var(--brand);padding-bottom:6px;margin-bottom:10px}
+  #adminView .sup-head h3{margin:0;color:var(--brand)}
+  #adminView .sup-head span{font-size:13px;color:var(--muted)}
+  #adminView .loc{background:#eef3fa;border-radius:10px;padding:8px 12px;margin:12px 0 6px}
+  #adminView .loc .n{font-weight:700;font-size:13px;color:var(--brand);text-transform:uppercase}
+  #adminView .loc .o{font-size:13px;margin-top:2px}
+  #adminView a.ph{color:var(--brand);font-weight:600;text-decoration:none}
+  #adminView .muted{color:var(--muted)}
+  #adminView .note{font-size:12px;color:var(--muted);margin-top:8px}
+  #adminView #dash{display:none}
+  #adminView{display:none;max-width:1100px}
+  body.admin-mode #formView,body.admin-mode .bar{display:none}
+  body.admin-mode #adminView{display:block}
+  body.admin-mode header .wrap{max-width:1100px}
+  header .wrap{position:relative}
+  header .hbtns{position:absolute;right:0;top:0;display:flex;gap:6px}
+  header .hbtns a,header .hbtns button{color:#fff;font:inherit;font-size:12px;background:none;border:1px solid rgba(255,255,255,.4);padding:4px 10px;border-radius:999px;cursor:pointer;text-decoration:none;opacity:.85}
+  [hidden]{display:none!important}
+  @media print{
+    header .hbtns,#adminView .controls .acts,#adminView .no-print{display:none!important}
+    body{background:#fff} #adminView .card{border:0;padding:0} #adminView .kpi{border:1px solid #ccc}
+    #adminView .sup-block{break-inside:avoid-page}
+  }
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
+    <div class="hbtns">
+      <a href="#admin" id="toAdmin">Admin</a>
+      <a href="#" id="toForm" hidden>← Form</a>
+      <button id="logout" hidden>Logout</button>
+    </div>
     <small>Office of the ERO · AC-24 Patel Nagar</small>
-    <h1>Special Camp – BLO Attendance</h1>
-    <p>Select your name, mark each polling station, attach a photo and submit.</p>
+    <h1 id="pageTitle">Special Camp – BLO Attendance</h1>
+    <p id="pageSub">Select your name, mark each polling station, attach a photo and submit.</p>
   </div>
 </header>
 
-<main>
+<main id="formView">
   <div id="msg" class="msg"></div>
 
   <div class="card">
@@ -97,14 +165,46 @@
   <div id="list" class="card" style="display:none">
     <div class="toolbar">
       <div class="count" id="count"></div>
-      <div style="display:flex;gap:8px">
-        <button type="button" class="btn-sm" id="allPresent">Mark all Present</button>
-        <button type="button" class="btn-sm" id="clearAll">Clear</button>
-      </div>
+      <button type="button" class="btn-sm" id="clearAll">Clear</button>
     </div>
+    <p class="rule">Photo is compulsory for every BLO marked <b>PRESENT</b>. Optional for ABSENT.</p>
     <div id="rows"></div>
   </div>
   <div id="placeholder" class="empty">Choose a supervisor above to load polling stations.</div>
+</main>
+
+<main id="adminView">
+  <!-- LOGIN -->
+  <div id="login" class="card">
+    <h2>Admin login</h2>
+    <form id="loginForm" class="g" autocomplete="on">
+      <div><label class="f" for="u">Username</label><input id="u" autocomplete="username" required></div>
+      <div><label class="f" for="p">Password</label><input id="p" type="password" autocomplete="current-password" required></div>
+      <div class="err" id="loginErr"></div>
+      <button class="btn" id="loginBtn" type="submit">Login</button>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash">
+    <div class="card">
+      <div class="controls">
+        <div><label class="f" for="date">Camp date</label><select id="date"></select></div>
+        <div><label class="f" for="sup">Supervisor</label><select id="sup"></select></div>
+        <div class="acts">
+          <button class="btn-sm" id="refresh">↻ Refresh</button>
+          <button class="btn-sm" id="csv">⬇ Excel/CSV</button>
+          <button class="btn-sm" id="print">🖨 Print</button>
+        </div>
+      </div>
+      <div class="err" id="dashErr" style="margin-top:10px"></div>
+      <div class="note" id="updated"></div>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+    <div id="summaryCard" class="card"></div>
+    <div id="detailCard" class="card"></div>
+  </div>
 </main>
 
 <div class="bar">
@@ -115,38 +215,36 @@
 </div>
 
 <script>
-/* ============ CONFIG ============ */
+/* ================= CONFIG ================= */
 // Paste your Google Apps Script Web App URL here (ends with /exec)
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx645x7aUrZZmN7VzZVk2IdGFskwZKYk6ThwtCZVKp1LuGE155ycCaH6lCklghCbmwpGw/exec";
-const PHOTO_REQUIRED = false;   // set true to make a photo mandatory for every PS
-const MAX_DIM = 1280;           // photos are resized to this max side before upload
-const JPEG_QUALITY = 0.7;
+const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+const CAMP_DATE  = "2026-09-27";   // default camp date
 
-/* ============ DATA (Order No. 1098 dt 25.09.2026, Annexure-A & C) ============ */
+/* ===== DATA (Order No. 1098 dt 25.09.2026, Annexure-A & C) ===== */
 const r = (a, b) => Array.from({length: b - a + 1}, (_, i) => a + i);
 
 const LOCATIONS = [
-  {sup:["NANAK CHAND"], loc:"M.C. Primary School, Prem Nagar", ps:[...r(1,7), ...r(9,17)]},
-  {sup:["DEVENDER KUMAR MAURYA"], loc:"Govt. Girls/Govt. Boys Sr. Sec. School, Prem Nagar", ps:[8, ...r(18,26), 88, 89, ...r(96,105)]},
-  {sup:["RAVI KUMAR"], loc:"MCD Primary School, DMS Colony, Shadipur", ps:r(65,68)},
-  {sup:["MANOJ KUMAR SINGH"], loc:"Nigam Pratibha Vidyalaya, 28-Block, West Patel Nagar", ps:[...r(71,84), ...r(131,137)]},
-  {sup:["SUDHIR PATHEJA"], loc:"Delhi Nagar Nigam Pratibha Vidyalaya, Baljeet Nagar", ps:[...r(44,56), 69, 70]},
-  {sup:["SUNIL KUMAR"], loc:"G.B.S.S.S. West Patel Nagar", ps:[85, 86, 87, ...r(90,95), 106]},
-  {sup:["VIRENDRA KUMAR"], loc:"Govt. Sarvodaya Bal Vidyalaya, West Patel Nagar", ps:[120, 124, 125, ...r(138,143)]},
-  {sup:["RAMAN KUMAR"], loc:"MCD Pry School, S-Block, West Patel Nagar", ps:[...r(57,64), ...r(107,110)]},
-  {sup:["PANKAJ"], loc:"SKV West Patel Nagar", ps:[111, 112, 114, 116, 117, 127]},
-  {sup:["YOGESH SINGH"], loc:"GGSSS West Patel Nagar", ps:[113, 115, 118, 119, 121, 122, 123, 126]},
-  {sup:["DR. RAKESH GAUD", "YOGESH SINGH"], loc:"PGDAV SSS West Patel Nagar", ps:[128, 129, 130]},
-  {sup:["ADARSH GUPTA"], loc:"Nigam Pratibha Vidyalaya Co-Ed, Opp. Block-15, East Patel Nagar", ps:[145, 146, 148, 149, 150]},
-  {sup:["MOHD ASHARAF"], loc:"Nigam Pratibha Vidyalaya, Prasad Nagar", ps:[144, 147, 151, 152]},
-  {sup:["MOHD ASHARAF"], loc:"SKV Ranjit Nagar", ps:[...r(153,161), 164, 167, 168]},
-  {sup:["RAKESH KUMAR"], loc:"MC Pry School, Z-Block, New Ranjit Nagar", ps:[162, 163, 165, 166]},
-  {sup:["KUNJ BIHARI GAUTAM"], loc:"Nigam Pratibha Vidyalaya, Shadi Khampur", ps:r(169,173)},
-  {sup:["TAMANNA TANDAN"], loc:"Sarvodaya Bal Vidyalaya, Shadi Khampur", ps:r(174,179)},
-  {sup:["GARIMA"], loc:"SKV Shadi Khampur", ps:r(182,189)},
-  {sup:["GARIMA"], loc:"Nigam Pratibha Vidyalaya, Old Ranjeet Nagar, Block 8", ps:[180, 181, 190]},
-  {sup:["RAJEEV KUMAR"], loc:"MC Primary School, Than Singh Nagar-II, Anand Parvat", ps:[32, 33, 34, ...r(36,43)]},
-  {sup:["RAMABIRAJ MEENA"], loc:"Ramjas Primary School, Anand Parvat", ps:[...r(27,31), 35]},
+  {sup:["NANAK CHAND"], loc:"M.C. Primary School, Prem Nagar", officer:"Usha Birmhan (1st Shift), Sanjay Kapoor (2nd Shift)", mobile:"8130546590, 8130546569", ps:[...r(1,7), ...r(9,17)]},
+  {sup:["DEVENDER KUMAR MAURYA"], loc:"Govt. Girls/Govt. Boys Sr. Sec. School, Prem Nagar", officer:"Vandana Sharma", mobile:"9811749486", ps:[8, ...r(18,26), 88, 89, ...r(96,105)]},
+  {sup:["RAVI KUMAR"], loc:"MCD Primary School, DMS Colony, Shadipur", officer:"Ashok Kumar", mobile:"8130546591, 8130546593", ps:r(65,68)},
+  {sup:["MANOJ KUMAR SINGH"], loc:"Nigam Pratibha Vidyalaya, 28-Block, West Patel Nagar", officer:"Anju Dewan", mobile:"8130546631", ps:[...r(71,84), ...r(131,137)]},
+  {sup:["SUDHIR PATHEJA"], loc:"Delhi Nagar Nigam Pratibha Vidyalaya, Baljeet Nagar", officer:"Ram Avtar, Kamlesh Rani, Amit Kumar", mobile:"9312784475, 8130546642, 8130546634", ps:[...r(44,56), 69, 70]},
+  {sup:["SUNIL KUMAR"], loc:"G.B.S.S.S. West Patel Nagar", officer:"Ramkumar Singh Chauhan", mobile:"7532995006", ps:[85, 86, 87, ...r(90,95), 106]},
+  {sup:["VIRENDRA KUMAR"], loc:"Govt. Sarvodaya Bal Vidyalaya, West Patel Nagar", officer:"Jaya Krushna Swain", mobile:"9136837745", ps:[120, 124, 125, ...r(138,143)]},
+  {sup:["RAMAN KUMAR"], loc:"MCD Pry School, S-Block, West Patel Nagar", officer:"Smt. Alka Rani (Girls), Sh. Rajender Kumar (Boys)", mobile:"8130546626, 8130546616", ps:[...r(57,64), ...r(107,110)]},
+  {sup:["PANKAJ"], loc:"SKV West Patel Nagar", officer:"Seema Shrivastava", mobile:"9868389411", ps:[111, 112, 114, 116, 117, 127]},
+  {sup:["YOGESH SINGH"], loc:"GGSSS West Patel Nagar", officer:"Ekpreet Kaur", mobile:"9868377286", ps:[113, 115, 118, 119, 121, 122, 123, 126]},
+  {sup:["DR. RAKESH GAUD", "YOGESH SINGH"], loc:"PGDAV SSS West Patel Nagar", officer:"Neeraj Kumar Singh", mobile:"9810417122", ps:[128, 129, 130]},
+  {sup:["ADARSH GUPTA"], loc:"Nigam Pratibha Vidyalaya Co-Ed, Opp. Block-15, East Patel Nagar", officer:"Muni Lal Ram", mobile:"8130546526", ps:[145, 146, 148, 149, 150]},
+  {sup:["MOHD ASHARAF"], loc:"Nigam Pratibha Vidyalaya, Prasad Nagar", officer:"Babita", mobile:"8130549865", ps:[144, 147, 151, 152]},
+  {sup:["MOHD ASHARAF"], loc:"SKV Ranjit Nagar", officer:"Anupama Taneja", mobile:"9810444610", ps:[...r(153,161), 164, 167, 168]},
+  {sup:["RAKESH KUMAR"], loc:"MC Pry School, Z-Block, New Ranjit Nagar", officer:"Sunita Rani", mobile:"9871416535", ps:[162, 163, 165, 166]},
+  {sup:["KUNJ BIHARI GAUTAM"], loc:"Nigam Pratibha Vidyalaya, Shadi Khampur", officer:"Sweta Choudhary", mobile:"8130549901", ps:r(169,173)},
+  {sup:["TAMANNA TANDAN"], loc:"Sarvodaya Bal Vidyalaya, Shadi Khampur", officer:"Narendra Singh", mobile:"9818822624", ps:r(174,179)},
+  {sup:["GARIMA"], loc:"SKV Shadi Khampur", officer:"Rajni Gupta", mobile:"9910278907", ps:r(182,189)},
+  {sup:["GARIMA"], loc:"Nigam Pratibha Vidyalaya, Old Ranjeet Nagar, Block 8", officer:"Vinay Tanwar", mobile:"8130549869", ps:[180, 181, 190]},
+  {sup:["RAJEEV KUMAR"], loc:"MC Primary School, Than Singh Nagar-II, Anand Parvat", officer:"Maman Ram", mobile:"8130549843", ps:[32, 33, 34, ...r(36,43)]},
+  {sup:["RAMABIRAJ MEENA"], loc:"Ramjas Primary School, Anand Parvat", officer:"Shruti Dhingra", mobile:"9910440242", ps:[...r(27,31), 35]},
 ];
 
 // BLO name by Part/PS number (Annexure-C). Index 0 unused.
@@ -172,30 +270,38 @@ const BLO = ["",
 "MADHO LAL MEENA","DAVINDERJIT KAUR","ANUBHA","SANGITA SHARMA","INDERJEET","MAMTA RANI","ROSHAN LAL","MEENU GUPTA","URMILA","ANKIT YADAV"
 ];
 
-/* ============ APP ============ */
+// Supervisors in Annexure-A order
+const SUPERVISORS = [];
+LOCATIONS.forEach(l => l.sup.forEach(s => { if (!SUPERVISORS.includes(s)) SUPERVISORS.push(s); }));
+
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ================= ATTENDANCE FORM ================= */
+const MAX_DIM = 1280;       // photos are resized to this max side before upload
+const JPEG_QUALITY = 0.7;
+const PHOTO_ERR = 'Photo is required when BLO is marked PRESENT. Please upload photo.';
+
 const $ = id => document.getElementById(id);
 const supSel = $('supervisor'), rowsEl = $('rows'), listEl = $('list'), phEl = $('placeholder');
 const submitBtn = $('submitBtn'), summaryEl = $('summary'), msgEl = $('msg');
-const photos = new Map();  // ps -> {data (base64), mimeType, preview}
-let current = [];          // [{ps, loc}]
+const photos = new Map();  // ps -> {data (base64), mimeType}
+let current = [];          // [{ps, loc, officer}]
 
-// supervisors in Annexure-A order
-const supervisors = [];
-LOCATIONS.forEach(l => l.sup.forEach(s => { if (!supervisors.includes(s)) supervisors.push(s); }));
-supervisors.forEach(s => {
+SUPERVISORS.forEach(s => {
   const n = LOCATIONS.filter(l => l.sup.includes(s)).reduce((t, l) => t + l.ps.length, 0);
   const o = document.createElement('option');
   o.value = s; o.textContent = `${s}  (${n} PS)`;
   supSel.appendChild(o);
 });
-
-// default camp date
-$('campDate').value = '2026-09-27';   // special camp date as per order
+$('campDate').value = CAMP_DATE;
 
 function showMsg(type, html){ msgEl.className = `msg show ${type}`; msgEl.innerHTML = html; }
 function hideMsg(){ msgEl.className = 'msg'; }
 
 supSel.addEventListener('change', () => { hideMsg(); render(supSel.value); });
+
+function telLinks(m){ return String(m||'').split(',').map(x => x.trim()).filter(Boolean)
+  .map(x => `<a href="tel:${esc(x)}">${esc(x)}</a>`).join(', '); }
 
 function render(sup){
   photos.clear(); rowsEl.innerHTML = ''; current = [];
@@ -205,9 +311,14 @@ function render(sup){
   LOCATIONS.filter(l => l.sup.includes(sup)).forEach(l => {
     const h = document.createElement('div');
     h.className = 'loc';
-    h.innerHTML = `${esc(l.loc)}${l.sup.length > 1 ? `<span>Shared: ${l.sup.map(esc).join(' / ')}</span>` : ''}`;
+    h.innerHTML = `<div class="name">${esc(l.loc)}</div>
+      <div class="off">Designated Officer: <b>${esc(l.officer)}</b>${l.mobile ? ` · 📞 ${telLinks(l.mobile)}` : ''}</div>
+      ${l.sup.length > 1 ? `<div class="shared">Shared supervisors: ${l.sup.map(esc).join(' / ')}</div>` : ''}`;
     rowsEl.appendChild(h);
-    [...l.ps].sort((a,b)=>a-b).forEach(ps => { current.push({ps, loc:l.loc}); rowsEl.appendChild(rowEl(ps)); });
+    [...l.ps].sort((a,b)=>a-b).forEach(ps => {
+      current.push({ps, loc:l.loc, officer:l.officer});
+      rowsEl.appendChild(rowEl(ps));
+    });
   });
   $('count').textContent = `${current.length} polling station${current.length>1?'s':''}`;
   updateSummary();
@@ -229,15 +340,30 @@ function rowEl(ps){
       </label>
       <img id="thumb-${ps}" alt="" hidden>
       <button type="button" class="x" id="rm-${ps}" title="Remove photo" hidden>×</button>
-    </div>`;
+    </div>
+    <div class="rowerr" id="err-${ps}" role="alert"></div>`;
   d.querySelectorAll('input[type=radio]').forEach(i => i.addEventListener('change', () => {
-    d.classList.remove('missing','is-present','is-absent');
+    d.classList.remove('is-present','is-absent');
     d.classList.add(i.value === 'PRESENT' ? 'is-present' : 'is-absent');
+    checkRow(ps);
     updateSummary();
   }));
   d.querySelector(`#file-${ps}`).addEventListener('change', e => onPhoto(ps, e.target));
   d.querySelector(`#rm-${ps}`).addEventListener('click', () => clearPhoto(ps));
   return d;
+}
+
+// Validates one row, shows/hides its red message. Returns true if row is OK.
+function checkRow(ps, onSubmit){
+  const st = statusOf(ps), row = $(`row-${ps}`), err = $(`err-${ps}`), pick = $(`pick-${ps}`);
+  let text = '';
+  if (st === 'PRESENT' && !photos.has(ps)) text = PHOTO_ERR;
+  else if (!st && onSubmit) text = 'Please mark PRESENT or ABSENT.';
+  err.textContent = text;
+  err.classList.toggle('show', !!text);
+  row.classList.toggle('missing', !!text);
+  pick.classList.toggle('need', st === 'PRESENT' && !photos.has(ps));
+  return !text;
 }
 
 async function onPhoto(ps, input){
@@ -251,12 +377,12 @@ async function onPhoto(ps, input){
     const t = $(`thumb-${ps}`); t.src = dataUrl; t.hidden = false;
     $(`rm-${ps}`).hidden = false;
     pick.classList.add('has'); pick.querySelector('span').textContent = 'Change';
-    $(`row-${ps}`).classList.remove('missing');
   } catch (err) {
     pick.querySelector('span').textContent = 'Upload photo';
     alert('Could not read this image. Please try another photo.');
   }
   input.value = '';
+  checkRow(ps);
   updateSummary();
 }
 
@@ -265,6 +391,7 @@ function clearPhoto(ps){
   const t = $(`thumb-${ps}`); t.hidden = true; t.removeAttribute('src');
   $(`rm-${ps}`).hidden = true;
   const pick = $(`pick-${ps}`); pick.classList.remove('has'); pick.querySelector('span').textContent = 'Upload photo';
+  checkRow(ps);
   updateSummary();
 }
 
@@ -296,25 +423,27 @@ function updateSummary(){
   submitBtn.disabled = false;
 }
 
-$('allPresent').addEventListener('click', () => {
-  current.forEach(({ps}) => { const i = document.querySelector(`input[name="st-${ps}"][value="PRESENT"]`); i.checked = true; i.dispatchEvent(new Event('change')); });
-});
 $('clearAll').addEventListener('click', () => { if (confirm('Clear all selections and photos?')) render(supSel.value); });
 
 submitBtn.addEventListener('click', async () => {
   hideMsg();
-  if (!SCRIPT_URL || SCRIPT_URL.startsWith('PASTE_')) { showMsg('err', 'Setup incomplete: the Apps Script URL has not been added to this page.'); return; }
+  if (!SCRIPT_URL || SCRIPT_URL.startsWith('PASTE_')) { showMsg('err', 'Setup incomplete: the Apps Script URL (SCRIPT_URL) has not been set at the top of the script.'); return; }
   const date = $('campDate').value;
   if (!date) { showMsg('err', 'Please choose the camp date.'); return; }
 
-  let firstBad = null;
+  let firstBad = null, unmarked = 0, noPhoto = 0;
   current.forEach(({ps}) => {
-    const bad = !statusOf(ps) || (PHOTO_REQUIRED && !photos.has(ps));
-    $(`row-${ps}`).classList.toggle('missing', bad);
-    if (bad && !firstBad) firstBad = ps;
+    const ok = checkRow(ps, true);
+    if (!ok) {
+      if (!firstBad) firstBad = ps;
+      if (!statusOf(ps)) unmarked++; else noPhoto++;
+    }
   });
   if (firstBad) {
-    showMsg('err', PHOTO_REQUIRED ? 'Please mark Present/Absent and upload a photo for every highlighted PS.' : 'Please mark Present or Absent for every highlighted PS.');
+    const parts = [];
+    if (noPhoto) parts.push(`${noPhoto} PS marked PRESENT without photo — photo is required when marked PRESENT`);
+    if (unmarked) parts.push(`${unmarked} PS not marked PRESENT/ABSENT`);
+    showMsg('err', `Cannot submit: ${parts.join('; ')}. Fix the rows highlighted in red.`);
     $(`row-${firstBad}`).scrollIntoView({behavior:'smooth', block:'center'});
     return;
   }
@@ -322,8 +451,8 @@ submitBtn.addEventListener('click', async () => {
   const payload = {
     supervisor: supSel.value,
     campDate: date,
-    entries: current.map(({ps, loc}) => ({
-      ps, location: loc, bloName: BLO[ps] || '', status: statusOf(ps),
+    entries: current.map(({ps, loc, officer}) => ({
+      ps, location: loc, officer, bloName: BLO[ps] || '', status: statusOf(ps),
       photo: photos.get(ps) || null
     }))
   };
@@ -348,7 +477,198 @@ submitBtn.addEventListener('click', async () => {
   }
 });
 
-function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+/* ================= ADMIN REPORT ================= */
+const ALL = '__ALL__';
+let creds = null, allRows = [], dates = [];
+
+/* ---------- session ---------- */
+function saveCreds(c){ try{ sessionStorage.setItem('bloAdmin', JSON.stringify(c)); }catch(e){} }
+function loadCreds(){ try{ return JSON.parse(sessionStorage.getItem('bloAdmin')||'null'); }catch(e){ return null; } }
+function clearCreds(){ try{ sessionStorage.removeItem('bloAdmin'); }catch(e){} }
+
+async function fetchReport(c){
+  if (!SCRIPT_URL || SCRIPT_URL.startsWith('PASTE_')) throw new Error('Apps Script URL (SCRIPT_URL) not set');
+  const url = `${SCRIPT_URL}?action=report&user=${encodeURIComponent(c.user)}&pass=${encodeURIComponent(c.pass)}&_=${Date.now()}`;
+  const res = await fetch(url);
+  const out = await res.json();
+  if (!out.ok) throw new Error(out.error || 'Server error');
+  return out;
+}
+
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const c = { user: $('u').value.trim(), pass: $('p').value };
+  $('loginErr').textContent = '';
+  $('loginBtn').disabled = true; $('loginBtn').textContent = 'Checking…';
+  try {
+    const out = await fetchReport(c);
+    creds = c; saveCreds(c); openDash(out);
+  } catch (err) {
+    $('loginErr').textContent = err.message;
+  } finally {
+    $('loginBtn').disabled = false; $('loginBtn').textContent = 'Login';
+  }
+});
+
+$('logout').addEventListener('click', () => {
+  clearCreds(); creds = null;
+  $('dash').style.display = 'none'; $('login').style.display = ''; $('logout').hidden = true; location.hash = '';
+  $('p').value = '';
+});
+
+/* ---------- dashboard ---------- */
+function openDash(out){
+  $('login').style.display = 'none'; $('dash').style.display = 'block'; $('logout').hidden = false;
+  applyData(out);
+}
+
+function applyData(out){
+  allRows = out.rows || [];
+  dates = [...new Set([CAMP_DATE, ...(out.dates || [])])].sort();
+  const dSel = $('date'), prev = dSel.value || CAMP_DATE;
+  dSel.innerHTML = dates.map(d => `<option value="${d}">${fmtD(d)}</option>`).join('');
+  dSel.value = dates.includes(prev) ? prev : dates[dates.length - 1];
+  $('updated').textContent = `Last refreshed ${new Date().toLocaleTimeString('en-IN')} · ${allRows.length} entries in sheet`;
+  renderReport();
+}
+
+(function initSupSel(){
+  const s = $('sup');
+  s.innerHTML = `<option value="${ALL}">★ All supervisors</option>` +
+    SUPERVISORS.map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
+})();
+
+$('date').addEventListener('change', renderReport);
+$('sup').addEventListener('change', renderReport);
+$('print').addEventListener('click', () => window.print());
+$('refresh').addEventListener('click', async () => {
+  $('dashErr').textContent = ''; $('refresh').textContent = '↻ Loading…';
+  try { applyData(await fetchReport(creds)); }
+  catch (err) { $('dashErr').textContent = err.message; }
+  finally { $('refresh').textContent = '↻ Refresh'; }
+});
+
+function fmtD(d){ const [y,m,dd] = d.split('-'); return dd && m ? `${dd}.${m}.${y}` : d; }
+
+// Build the report for one supervisor on the selected date
+function buildFor(sup, byPs){
+  const locs = LOCATIONS.filter(l => l.sup.includes(sup)).map(l => ({
+    ...l,
+    items: [...l.ps].sort((a,b)=>a-b).map(ps => ({ ps, blo: BLO[ps] || '', rec: byPs[ps] || null }))
+  }));
+  const items = locs.flatMap(l => l.items);
+  const c = { total: items.length, present: 0, absent: 0, pending: 0, photos: 0 };
+  items.forEach(i => {
+    if (!i.rec) c.pending++;
+    else if (i.rec.status === 'PRESENT') c.present++;
+    else c.absent++;
+    if (i.rec && i.rec.photo) c.photos++;
+  });
+  return { sup, locs, c };
+}
+
+function badge(rec){
+  if (!rec) return '<span class="badge b-n">NOT SUBMITTED</span>';
+  return rec.status === 'PRESENT' ? '<span class="badge b-p">PRESENT</span>' : '<span class="badge b-a">ABSENT</span>';
+}
+
+function renderReport(){
+  const date = $('date').value, sel = $('sup').value;
+  const byPs = {};
+  allRows.filter(r => r.date === date).forEach(r => { byPs[r.ps] = r; });
+
+  const sups = sel === ALL ? SUPERVISORS : [sel];
+  const reports = sups.map(s => buildFor(s, byPs));
+
+  // KPIs – count each PS once even when shared by two supervisors
+  const seen = new Set(); const k = { total:0, present:0, absent:0, pending:0, photos:0 };
+  reports.forEach(rp => rp.locs.forEach(l => l.items.forEach(i => {
+    if (seen.has(i.ps)) return; seen.add(i.ps);
+    k.total++;
+    if (!i.rec) k.pending++; else if (i.rec.status === 'PRESENT') k.present++; else k.absent++;
+    if (i.rec && i.rec.photo) k.photos++;
+  })));
+  $('kpis').innerHTML = [
+    ['Total PS', k.total, ''], ['Present', k.present, 'p'], ['Absent', k.absent, 'a'],
+    ['Not submitted', k.pending, 'n'], ['Photos', k.photos, '']
+  ].map(([l,v,c]) => `<div class="kpi ${c}"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+
+  // Supervisor-wise summary (always for "All"; single row otherwise)
+  const sumRows = reports.map(rp => {
+    const done = rp.c.total - rp.c.pending;
+    const st = rp.c.pending === 0 ? '<span class="badge b-p">Complete</span>'
+             : done === 0 ? '<span class="badge b-n">Not submitted</span>'
+             : `<span class="badge b-n">${done}/${rp.c.total} done</span>`;
+    return `<tr class="${sel===ALL?'click':''}" data-sup="${esc(rp.sup)}">
+      <td><b>${esc(rp.sup)}</b></td><td class="num">${rp.c.total}</td>
+      <td class="num" style="color:var(--ok);font-weight:700">${rp.c.present}</td>
+      <td class="num" style="color:var(--bad);font-weight:700">${rp.c.absent}</td>
+      <td class="num">${rp.c.pending}</td><td class="num">${rp.c.photos}</td><td>${st}</td></tr>`;
+  }).join('');
+  $('summaryCard').innerHTML = `<h3>Supervisor-wise summary · ${fmtD(date)}</h3>
+    <div class="tw"><table><thead><tr><th>Supervisor</th><th class="num">Total PS</th><th class="num">Present</th>
+    <th class="num">Absent</th><th class="num">Not submitted</th><th class="num">Photos</th><th>Status</th></tr></thead>
+    <tbody>${sumRows}</tbody></table></div>
+    ${sel===ALL ? '<div class="note no-print">Tap a supervisor to open only their report. PS 128–130 are shared by Dr. Rakesh Gaud and Yogesh Singh, so they appear under both (counted once in the totals above).</div>' : ''}`;
+  $('summaryCard').querySelectorAll('tr.click').forEach(tr => tr.addEventListener('click', () => {
+    $('sup').value = tr.dataset.sup; renderReport(); window.scrollTo({top:0, behavior:'smooth'});
+  }));
+
+  // Detailed PS-wise report
+  $('detailCard').innerHTML = `<h3>PS-wise detail · ${fmtD(date)}</h3>` + reports.map(rp => `
+    <div class="sup-block">
+      <div class="sup-head"><h3>${esc(rp.sup)}</h3>
+        <span>${rp.c.present} present · ${rp.c.absent} absent · ${rp.c.pending} not submitted</span></div>
+      ${rp.locs.map(l => `
+        <div class="loc"><div class="n">${esc(l.loc)}</div>
+          <div class="o">Designated Officer: <b>${esc(l.officer)}</b>${l.mobile ? ` · ${esc(l.mobile)}` : ''}</div></div>
+        <div class="tw"><table><thead><tr><th class="num">PS</th><th>BLO name</th><th>Status</th><th>Photo</th><th>Submitted by / at</th></tr></thead><tbody>
+        ${l.items.map(i => `<tr>
+          <td class="num"><b>${i.ps}</b></td><td>${esc(i.blo)}</td><td>${badge(i.rec)}</td>
+          <td>${i.rec && i.rec.photo ? `<a class="ph" href="${esc(i.rec.photo)}" target="_blank" rel="noopener">View ↗</a>` : '<span class="muted">—</span>'}</td>
+          <td class="muted">${i.rec ? `${esc(i.rec.supervisor)}<br>${esc(i.rec.ts)}` : '—'}</td></tr>`).join('')}
+        </tbody></table></div>`).join('')}
+    </div>`).join('');
+}
+
+/* ---------- CSV export (opens in Excel) ---------- */
+$('csv').addEventListener('click', () => {
+  const date = $('date').value, sel = $('sup').value;
+  const byPs = {}; allRows.filter(r => r.date === date).forEach(r => { byPs[r.ps] = r; });
+  const lines = [['Camp Date','Supervisor','Location','Designated Officer','PS No','BLO Name','Status','Photo','Submitted By','Submitted At']];
+  (sel === ALL ? SUPERVISORS : [sel]).forEach(s => buildFor(s, byPs).locs.forEach(l => l.items.forEach(i => {
+    lines.push([fmtD(date), s, l.loc, l.officer, i.ps, i.blo, i.rec ? i.rec.status : 'NOT SUBMITTED',
+      i.rec ? i.rec.photo : '', i.rec ? i.rec.supervisor : '', i.rec ? i.rec.ts : '']);
+  })));
+  const csv = '﻿' + lines.map(r => r.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = `special-camp-report_${date}_${sel===ALL?'ALL':sel.replace(/\W+/g,'_')}.csv`;
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+/* ---------- auto-login within the same browser tab ---------- */
+async function tryAutoLogin(){
+  if (creds) return;
+  const c = loadCreds();
+  if (!c) return;
+  try { const out = await fetchReport(c); creds = c; openDash(out); } catch (e) { clearCreds(); }
+}
+
+/* ================= VIEW SWITCH (#admin) ================= */
+function route(){
+  const admin = location.hash === '#admin';
+  document.body.classList.toggle('admin-mode', admin);
+  $('toAdmin').hidden = admin; $('toForm').hidden = !admin;
+  $('logout').hidden = !(admin && creds);
+  $('pageTitle').textContent = admin ? 'Admin Report' : 'Special Camp – BLO Attendance';
+  $('pageSub').textContent = admin ? 'Supervisor-wise attendance report' : 'Select your name, mark each polling station, attach a photo and submit.';
+  document.title = admin ? 'Admin Report · Special Camp' : 'Special Camp Attendance · AC-24 Patel Nagar';
+  if (admin) tryAutoLogin();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', route);
+route();
 </script>
 </body>
 </html>
